@@ -1,0 +1,103 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-DD",
+      "generator": "Visual Studio 16 2019 Win64",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\.build\\${workspaceHash}\\${name}",
+      "installRoot": "${projectDir}\\bin\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v:m -m:2",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "D:\\git\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+          "type": "STRING"
+        },
+        {
+          "name": "VCPKG_TARGET_TRIPLET",
+          "value": "x64-windows",
+          "type": "STRING"
+        },
+        //{
+        //  "name": "MSVC_RUNTIME",
+        //  "value": "dynamic",
+        //  "type": "STRING"
+        //},
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Debug",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "name": "x64-RDD",
+      "generator": "Visual Studio 16 2019 Win64",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\.build\\${workspaceHash}\\${name}",
+      "installRoot": "${projectDir}\\bin\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v:m -m:2",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "D:\\git\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+          "type": "STRING"
+        },
+        {
+          "name": "VCPKG_TARGET_TRIPLET",
+          "value": "x64-windows",
+          "type": "STRING"
+        },
+        //{
+        //  "name": "MSVC_RUNTIME",
+        //  "value": "dynamic",
+        //  "type": "STRING"
+        //},
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "RelwithDebInfo",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Visual Studio 16 2019 Win64",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\.build\\${workspaceHash}\\${name}",
+      "installRoot": "${projectDir}\\bin\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v:m -m:2",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "D:\\git\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+          "type": "STRING"
+        },
+        {
+          "name": "VCPKG_TARGET_TRIPLET",
+          "value": "x64-windows",
+          "type": "STRING"
+        },
+        //{
+        //  "name": "MSVC_RUNTIME",
+        //  "value": "dynamic",
+        //  "type": "STRING"
+        //},
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Release",
+          "type": "STRING"
+        }
+      ]
+    }
+  ]
+}
