@@ -7,19 +7,25 @@ author:yujinling
 #include <stdint.h>
 #include <memory>
 #include <mysql/mysql.h>
-#include "resultres.h"
+//#include "resultset.h"
 #include "mysql_option.h"
 
 namespace MariaDBClient {
+class ResultSet;
 
 class Connection {
+
  public:
+
   Connection();
 
   ~Connection();
 
+  //handle mysql c api --start
+
   std::uint64_t affected_rows() { return mysql_affected_rows(mysql_); }
 
+  //Sets autocommit mode on if mode is 1, off if mode is 0. 
   bool autocommit(bool mode) { return mysql_autocommit(mysql_, mode); }
 
   bool change_user(const char* user, const char* password, const char* db) {
@@ -36,22 +42,20 @@ class Connection {
   // void connect(const char* host, const char* user, const char* passwd);
 
   // deprecated
-  // int create_db(const char* db) {return }
+  // int create_db(const char* db);
 
   // deprecated
   // int drop_db(const char* db);
 
+  //The connected user must have the SUPER privilege. 
   int dump_debug_info() { return mysql_dump_debug_info(mysql_); }
 
-  // deprecated
+  // deprecated. mysql_errno() or mysql_error() may be used instead. 
   // bool eof();
 
   unsigned int errno() { return mysql_errno(mysql_); }
 
   const char* error() { return mysql_error(mysql_); }
-
-  // deprecated
-  // mysql_escape_string()
 
   unsigned int field_count() { return mysql_field_count(mysql_); }
 
@@ -77,7 +81,7 @@ class Connection {
 
   const char* info() { return mysql_info(mysql_); }
 
-  // void init() { mysql_ = mysql_init(NULL); }
+  void init() { mysql_ = mysql_init(NULL); }
 
   std::uint64_t insert_id() { return mysql_insert_id(mysql_); }
 
@@ -86,20 +90,34 @@ class Connection {
 
   // wild may contain the wildcard characters % or _, or may be a NULL pointer
   // to match all fields.
-  std::unique_ptr<ResultRes> list_dbs(const char* wild) {
-    MYSQL_RES* res = mysql_list_dbs(mysql_, wild);
-    return std::make_unique<ResultRes>(res);
+  MYSQL_RES* list_dbs(const char* wild) { return mysql_list_dbs(mysql_, wild); }
+
+  // wild may contain the wildcard characters % or _, or may be a NULL pointer
+  // to match all fields.
+  MYSQL_RES* list_tables(const char* wild) {
+    return mysql_list_tables(mysql_, wild);
   }
+
+  // wild may contain the wildcard characters % or _, or may be a NULL pointer
+  // to match all fields.
+  //std::unique_ptr<ResultRes> list_dbs(const char* wild) {//todo
+  //  MYSQL_RES* res = mysql_list_dbs(mysql_, wild);
+  //  return std::make_unique<ResultRes>(res);
+  //}
+
+    // deprecated
+  // MYSQL_RES *mysql_list_fields(MYSQL *mysql, const char *table, const char
+  // *wild)
 
   // deprecated
   // mysql_list_processes();
 
   // wild may contain the wildcard characters % or _, or may be a NULL pointer
   // to match all fields.
-  std::unique_ptr<ResultRes> list_tables(const char* wild) {
-    MYSQL_RES* res = mysql_list_tables(mysql_, wild);
-    return std::make_unique<ResultRes>(res);
-  }
+  //std::unique_ptr<ResultRes> list_tables(const char* wild) {//todo
+  //  MYSQL_RES* res = mysql_list_tables(mysql_, wild);
+  //  return std::make_unique<ResultRes>(res);
+  //}
 
   bool more_results() { return mysql_more_results(mysql_); }
 
@@ -122,7 +140,7 @@ class Connection {
   //"host","user","passwd","database",0,NULL,0
   void real_connect(const char* host, const char* user, const char* passwd,
                     const char* db, unsigned int port, const char* unix_socket,
-                    unsigned long client_flag) {
+                    unsigned long client_flag) {//todo
     MYSQL* m = mysql_real_connect(mysql_, host, user, passwd, db, port,
                                   unix_socket, client_flag);
   }
@@ -143,10 +161,11 @@ class Connection {
 
   // mysql_refresh() is deprecated and will be removed in a future version of
   // MySQL. Instead, use mysql_query() to execute a FLUSH statement.
-  // mysql_refresh();
+  // int mysql_refresh(MYSQL *mysql, unsigned int options);
 
   // This function is deprecated.Use mysql_query() to issue an SQL FLUSH
-  // PRIVILEGES statement instead. int reload() { return mysql_reload(mysql_); }
+  // PRIVILEGES statement instead. 
+  // int reload() { return mysql_reload(mysql_); }
 
   int reset_connection() { return mysql_reset_connection(mysql_); }
 
@@ -195,22 +214,27 @@ class Connection {
     return mysql_ssl_set(mysql_, key, cert, ca, capath, cipher);
   }
 
-  const char* state() { return mysql_state(mysql_); }
+  const char* stat() { return mysql_stat(mysql_); }
 
-  std::unique_ptr<ResultRes> store_result() {
+  std::unique_ptr<ResultSet> store_result() {
     MYSQL_RES* res = mysql_store_result(mysql_);
-    return std::make_unique<ResultRes>(res);
+    return std::make_unique<ResultSet>(res);
   }
 
   //do not use it. To get the connection ID, execute a SELECT CONNECTION_ID() query and retrieve the result. 
   //unsigned long thread_id() { return mysql_thread_id(mysql_); }
 
-  std::unique_ptr<ResultRes> use_result() {
-    MYSQL_RES* res = mysql_use_result(mysql_);
-    return std::make_unique<ResultRes>(res);
-  }
+  MYSQL_RES* use_result() { return mysql_use_result(mysql_); }
+  //std::unique_ptr<ResultSet> use_result() {//todo
+  //  MYSQL_RES* res = mysql_use_result(mysql_);
+  //  return std::make_unique<ResultSet>(res);
+  //}
 
   unsigned int warning_count() { return mysql_warning_count(mysql_); }
+  MYSQL* get_mysql() { return mysql_; }
+  MYSQL_STMT* stmt_init() { return mysql_stmt_init(mysql_); }
+
+  // handle mysql c api --end
  private:
   MYSQL *mysql_;
 };

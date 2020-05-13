@@ -6,11 +6,12 @@ author:yujinling
 #include <mysql/mysql.h>
 
 namespace MariaDBClient {
-class ResultRes {
+class ResultSet {
  public:
-  ResultRes(MYSQL_RES* res):result_(res) {}
-  ~ResultRes() { mysql_free_result(result_); }
+  ResultSet(MYSQL_RES* res) : result_(res) {}
+  ~ResultSet() { mysql_free_result(result_); }
 
+  //handle mysql c api --start
   void data_seek(std::uint64_t offset) { mysql_data_seek(result_, offset); }
 
   MYSQL_FIELD* fetch_field() { return mysql_fetch_field(result_); }
@@ -32,6 +33,8 @@ class ResultRes {
 
   MYSQL_FIELD_OFFSET field_tell() { return mysql_field_tell(result_); }
 
+  void free_result() { mysql_free_result(result_); }
+
   unsigned int num_fields() { return mysql_num_fields(result_); }
 
   uint64_t mysql_num_rows() { return mysql_num_rows(result_); }
@@ -46,7 +49,7 @@ class ResultRes {
   //!!
   MYSQL_ROW_OFFSET row_tell() { return mysql_row_tell(result_); }
 
- 
+ // handle mysql c api --end
 
  private:
   MYSQL_RES* result_;

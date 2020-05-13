@@ -4,6 +4,7 @@ author:yujinling
 */
 #pragma once
 namespace MariaDBClient {
+
 const char *get_client_info();
 
 unsigned long get_client_version();
