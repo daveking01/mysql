@@ -18,7 +18,7 @@ void library_end() { mysql_library_end(); }
 
 int library_init(int argc, char** argv, char** groups) { return mysql_library_init(argc, argv, groups); }
 
-int library_init() { library_init(0, NULL, NULL); }
+int library_init() { return library_init(0, NULL, NULL); }
 
 unsigned int thread_safe() { return mysql_thread_safe(); }
 

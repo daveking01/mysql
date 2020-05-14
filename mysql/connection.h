@@ -53,7 +53,7 @@ class Connection {
   // deprecated. mysql_errno() or mysql_error() may be used instead. 
   // bool eof();
 
-  unsigned int errno() { return mysql_errno(mysql_); }
+  unsigned int merrno() { return mysql_errno(mysql_); }
 
   const char* error() { return mysql_error(mysql_); }
 
@@ -61,8 +61,8 @@ class Connection {
 
   // todo
   void get_character_set_info(MY_CHARSET_INFO* cs) {
-    MY_CHARSET_INFO cs;
-    mysql_get_character_set_info(&cs);
+    //MY_CHARSET_INFO cs;
+    mysql_get_character_set_info(mysql_, cs);
   }
 
   const char* get_host_info() { return mysql_get_host_info(mysql_); }
@@ -73,9 +73,9 @@ class Connection {
 
   unsigned int get_proto_info() { return mysql_get_proto_info(mysql_); }
 
-  const char* get_server_info() { return mysql_get_server_info(mysql_); }
+  const char* get_server_info_str() { return mysql_get_server_info(mysql_); }
 
-  unsigned long get_server_info() { return mysql_get_server_version(mysql_); }
+  unsigned long get_server_info_ul() { return mysql_get_server_version(mysql_); }
 
   const char* get_ssl_cipher() { return mysql_get_ssl_cipher(mysql_); }
 
@@ -123,11 +123,11 @@ class Connection {
 
   int next_result() { return mysql_next_result(mysql_); }
 
-  int options(const MysqlOption* option) {
+  int options(MysqlOption* option) {
     return mysql_options(mysql_, option->option(), option->arg());
   }
 
-  int options4(const MysqlOption* option) {
+  int options4(MysqlOption* option) {
     return mysql_options4(mysql_, option->option(), option->arg(),
                           option->arg2());
   }
@@ -147,7 +147,7 @@ class Connection {
 
   unsigned long real_escape_string(char* to, const char* from,
                                    unsigned long length) {
-    return mysql_real_escape_string(&mysql, to, from, length);
+    return mysql_real_escape_string(mysql_, to, from, length);
   }
 
   unsigned long real_escape_string_quote(char* to, const char* from,
@@ -171,7 +171,7 @@ class Connection {
 
   bool rollback() { return mysql_rollback(mysql_); }
 
-  int select_db(const char* db) { return mysql_select_db(mysql_); }
+  int select_db(const char* db) { return mysql_select_db(mysql_, db); }
 
   // don't know how to use
   // mysql_session_track_get_next(mysql, type, &data, &length);

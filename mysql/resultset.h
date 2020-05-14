@@ -37,7 +37,7 @@ class ResultSet {
 
   unsigned int num_fields() { return mysql_num_fields(result_); }
 
-  uint64_t mysql_num_rows() { return mysql_num_rows(result_); }
+  uint64_t num_rows() { return mysql_num_rows(result_); }
 
   enum enum_resultset_metadata result_metadata(MYSQL_RES* result) {
     return mysql_result_metadata(result_);

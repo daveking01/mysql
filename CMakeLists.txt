@@ -69,7 +69,7 @@ ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include
 )
 target_link_libraries(${MYSQL_MODULE}
 PUBLIC
-${libmariadb}
+${libmysql}
 )
 
 #mysql-Ä£¿é-end

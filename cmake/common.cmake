@@ -6,7 +6,9 @@ STRING(CONCAT VCPKG_LIB_DIR_RELEASE "${VCPKG_DIR}/installed/${VCPKG_TARGET_TRIPL
 
 if (${CMAKE_BUILD_TYPE} EQUAL "Debug")
 	set(libmariadb "${VCPKG_LIB_DIR_DEBUG}libmariadb.lib")
+	set(libmysql "${VCPKG_LIB_DIR_DEBUG}libmysql.lib")
 elseif(${CMAKE_BUILD_TYPE} EQUAL "Release")
 	set(libmariadb "${VCPKG_LIB_DIR_RELEASE}libmariadb.lib")
+	set(libmysql "${VCPKG_LIB_DIR_RELEASE}libmysql.lib")
 elseif(${CMAKE_BUILD_TYPE} EQUAL "RelwithDebInfo")
 endif()
